@@ -32,6 +32,8 @@ function runGame() {
       height: h,
     })
 
+
+
   // put enemies in
 
   var enemies = gameWindow
@@ -42,7 +44,8 @@ function runGame() {
     .attr({
       cx: randomX,
       cy: randomY,
-      r: 15
+      r: 15,
+      fill: 'red'
     })
 
 
@@ -52,7 +55,8 @@ function runGame() {
     .attr({
       cx: randomX,
       cy: randomY,
-      r: 15
+      r: 15,
+
     })
     .transition()
     .duration(100)
@@ -71,8 +75,7 @@ function runGame() {
       cy: h/2,
       rx: 10,
       ry: 10,
-      stroke: 'red',
-      fill: 'red'
+
     })
     .call(d3.behavior.drag().on("drag", function(){
       player
