@@ -74,6 +74,14 @@ function runGame() {
       stroke: 'red',
       fill: 'red'
     })
+    .call(d3.behavior.drag().on("drag", function(){
+      player
+      .style({
+        cx: d3.event.x,
+        cy: d3.event.y
+      })
+    }));
+
 
 }
 
