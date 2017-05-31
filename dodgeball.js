@@ -3,7 +3,7 @@ function runGame() {
 
   var nEnemies = 20;
   var highScore = 0;
-  var collisions = 0;
+  var hits = 0;
   var currentScore = 0;
 
 
@@ -39,7 +39,7 @@ function runGame() {
     .data(d3.range(nEnemies))
     .enter()
     .append('circle')
-    .style({
+    .attr({
       cx: randomX,
       cy: randomY,
       r: 15
@@ -49,7 +49,7 @@ function runGame() {
   var move = function() {
     enemies
     .transition().duration(2000)
-    .style({
+    .attr({
       cx: randomX,
       cy: randomY,
       r: 15
@@ -66,7 +66,7 @@ function runGame() {
     .data([1])
     .enter()
     .append('ellipse')
-    .style({
+    .attr({
       cx: w/2,
       cy: h/2,
       rx: 10,
@@ -76,13 +76,46 @@ function runGame() {
     })
     .call(d3.behavior.drag().on("drag", function(){
       player
-      .style({
+      .attr({
         cx: d3.event.x,
         cy: d3.event.y
       })
     }));
 
+  // check if there is any collisions with distance formula. d = sqrt((x1-x2)^2 + (y1-y2)^2)
+  var checkCollision = function() {
+    var collision = false;
+    enemies.each(function() {
+      var enemy = d3.select(this)
+      var xDist = enemy.attr('cx')-player.attr('cx')
+      var yDist = enemy.attr('cy')-player.attr('cy')
+      var rDist = parseInt(enemy.attr('r'))+parseInt(player.attr('rx'))
 
+      var totalDistApart = Math.sqrt(Math.pow(xDist,2) + Math.pow(yDist,2))
+      if (totalDistApart<=rDist) {
+        collision = true;
+      }
+    })
+    if (collision) {
+      currentScore = 0
+      if (alreadyCollided != collision){
+        hits++
+      }
+    }
+
+    alreadyCollided = collision;
+  }
+  d3.timer(checkCollision)
+
+  var updateScore = function() {
+    currentScore++
+    highScore = Math.max(currentScore, highScore);
+    d3.select(".current span").text(currentScore)
+    d3.select(".highscore span").text(highScore)
+    d3.select(".hits span").text(hits)
+  }
+
+  setInterval(updateScore, 100);
 }
 
 runGame()
