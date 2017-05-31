@@ -60,6 +60,21 @@ function runGame() {
   }
   move()
 
+  //create player element
+  var player = gameWindow
+    .selectAll('ellipse')
+    .data([1])
+    .enter()
+    .append('ellipse')
+    .style({
+      cx: w/2,
+      cy: h/2,
+      rx: 10,
+      ry: 10,
+      stroke: 'red',
+      fill: 'red'
+    })
+
 }
 
 runGame()
