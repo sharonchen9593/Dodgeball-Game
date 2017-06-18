@@ -1,3 +1,3 @@
 # Dodgeball-Game
 
-A dodgeball game created using D3.
+Front-end project. A dodgeball game created using D3.
